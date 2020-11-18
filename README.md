@@ -10,3 +10,5 @@
 
 ### 5. Graph based Semi-supervised learning
 
+### 6. self-training Semi-supervised learning
+
