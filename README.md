@@ -80,9 +80,9 @@ def get_data():
 label_X_train, label_y_train, unlabel_X_train, unlabel_y, X_test, y_test = get_data()
 
 # import 
-from semisupervised import SKTSVM
+from semisupervised import S3SVM
 
-model = SKTSVM()
+model = S3SVM()
 model.fit(np.vstack((label_X_train, unlabel_X_train)), np.append(label_y_train, unlabel_y))
 # predict
 predict = model.predict(X_test)
