@@ -5,11 +5,7 @@ Created on Sun Dec 22 19:22:43 2019
 @author: win10
 """
 
-import tensorflow as tf
-
-import sklearn.svm as svm
 from sklearn.externals import joblib
-import TEdata1d
 
 from sklearn.model_selection import train_test_split,cross_val_score
 
@@ -18,7 +14,7 @@ import sklearn.metrics
 import random as rnd
 import numpy
 from sklearn.linear_model import LogisticRegression as LR
-from qns3vm import QN_S3VM
+from .qns3vm import QN_S3VM
 
 class SKTSVM(BaseEstimator):
     """
@@ -145,22 +141,24 @@ class SKTSVM(BaseEstimator):
     
 
 if __name__ == '__main__':
-    BUFFER_SIZE = 60000
-    BATCH_SIZE = 50    
-    fl_ind=[0,1,2,4,5,6,7,8,10,11,12,13,14,17,18,19,20]
-    epochs=100
-    noise_dim=256
-    epsilon=20
-    x,x_test,y,y_test,unlx=TEdata1d.getunl(fl_ind)
-#    unlx=np.reshape(unlx,[-1,1000])
-#    x=np.reshape(x,[-1,1000])
-#    x_test=np.reshape(x_test,[-1,1000])
-    model = SKTSVM()
-#    model.initial()
-    z=-1*numpy.ones(unlx.shape[0]).astype(int)
+	model = SKTSVM()
+	model.fit(np.array([[1],[1],[2],[3],[3]]), np.array([0,0,1,1,-1]))
+    # BUFFER_SIZE = 60000
+    # BATCH_SIZE = 50    
+    # fl_ind=[0,1,2,4,5,6,7,8,10,11,12,13,14,17,18,19,20]
+    # epochs=100
+    # noise_dim=256
+    # epsilon=20
+    # x,x_test,y,y_test,unlx=TEdata1d.getunl(fl_ind)
+# #    unlx=np.reshape(unlx,[-1,1000])
+# #    x=np.reshape(x,[-1,1000])
+# #    x_test=np.reshape(x_test,[-1,1000])
+    # model = SKTSVM()
+# #    model.initial()
+    # z=-1*numpy.ones(unlx.shape[0]).astype(int)
 
-    model.fit(numpy.vstack((x,unlx)), numpy.append(y,z))
-#    Y_hat = model.predict(x_test)
-#    accuracy = model.score(x_test, y_test)
+    # model.fit(numpy.vstack((x,unlx)), numpy.append(y,z))
+# #    Y_hat = model.predict(x_test)
+# #    accuracy = model.score(x_test, y_test)
 
 
