@@ -45,19 +45,20 @@ install_requires = [
 	
 setup(
 	name='semisupervised',
-	version='0.0.5',
+	version='0.0.10',
 	description='Python implementation of semi-supervised learning algorithm',
 	long_description=long_description,
+	#long_description_content_type="text/markdown",
 	#py_modules=['pyssl'],
-	packages=setuptools.find_packages(exclude=["tests"]),
+	packages=setuptools.find_packages(exclude=["tests", "examples"]),
 	author = "Rosefun",  
 	author_email = "rosefun@foxmail.com" ,
-	url = "https://github.com/rosefun/pyssl" ,
-	download_url='https://github.com/rosefun/pyssl/tags',
+	url = "https://github.com/rosefun/semisupervised" ,
+	download_url='https://github.com/rosefun/semisupervised/tags',
 	python_requires=">=3.0",
 	#license="Apache License, Version 2.0",
 	platforms=platforms,
 	classifiers=classifiers,
 	install_requires=install_requires,
-	keywords=['semi-supervised learning','ssl', 'deep learning', 'machine learning']
+	keywords=['semi-supervised learning','ssl', 'deep learning', 'machine learning', 'semisupervised']
 	)   
