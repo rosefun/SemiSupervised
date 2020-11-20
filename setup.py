@@ -38,17 +38,18 @@ classifiers = [
 
 install_requires = [
 	'numpy',
-	'pandas'
+	'pandas',
+	'sklearn',
 ]
 
 	
 setup(
 	name='semisupervised',
-	version='0.0.1',
+	version='0.0.5',
 	description='Python implementation of semi-supervised learning algorithm',
 	long_description=long_description,
 	#py_modules=['pyssl'],
-	packages=setuptools.find_packages(),
+	packages=setuptools.find_packages(exclude=["tests"]),
 	author = "Rosefun",  
 	author_email = "rosefun@foxmail.com" ,
 	url = "https://github.com/rosefun/pyssl" ,
