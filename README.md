@@ -1,4 +1,16 @@
-# semisupervised
+# SemiSupervised
+
+
+
+# Describe
+
+
+
+This is a Semi-supervised learning framework of Python. You can use it for classification task in machine learning.
+
+ 
+
+
 
 
 
