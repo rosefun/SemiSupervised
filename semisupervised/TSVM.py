@@ -16,9 +16,9 @@ import numpy
 from sklearn.linear_model import LogisticRegression as LR
 from .qns3vm import QN_S3VM
 
-class SKTSVM(BaseEstimator):
+class S3VM(BaseEstimator):
     """
-    Scikit-learn wrapper for transductive SVM (SKTSVM)
+    Scikit-learn wrapper for transductive SVM (SKTSVM, also named S3VM)
     
     Wraps QN-S3VM by Fabian Gieseke, Antti Airola, Tapio Pahikkala, Oliver Kramer (see http://www.fabiangieseke.de/index.php/code/qns3vm) 
     as a scikit-learn BaseEstimator, and provides probability estimates using Platt scaling
@@ -141,24 +141,9 @@ class SKTSVM(BaseEstimator):
     
 
 if __name__ == '__main__':
-	model = SKTSVM()
+	model = S3VM()
+	import numpy as np
 	model.fit(np.array([[1],[1],[2],[3],[3]]), np.array([0,0,1,1,-1]))
-    # BUFFER_SIZE = 60000
-    # BATCH_SIZE = 50    
-    # fl_ind=[0,1,2,4,5,6,7,8,10,11,12,13,14,17,18,19,20]
-    # epochs=100
-    # noise_dim=256
-    # epsilon=20
-    # x,x_test,y,y_test,unlx=TEdata1d.getunl(fl_ind)
-# #    unlx=np.reshape(unlx,[-1,1000])
-# #    x=np.reshape(x,[-1,1000])
-# #    x_test=np.reshape(x_test,[-1,1000])
-    # model = SKTSVM()
-# #    model.initial()
-    # z=-1*numpy.ones(unlx.shape[0]).astype(int)
 
-    # model.fit(numpy.vstack((x,unlx)), numpy.append(y,z))
-# #    Y_hat = model.predict(x_test)
-# #    accuracy = model.score(x_test, y_test)
 
 
