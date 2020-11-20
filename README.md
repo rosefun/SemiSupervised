@@ -10,10 +10,6 @@ This is a Semi-supervised learning framework of Python. You can use it for class
 
  
 
-
-
-
-
 # Install
 
 
@@ -26,7 +22,29 @@ pip install semisupervised
 
 
 
+# API
 
+
+
+We have implemented following semi-supervised learning algorithm. 
+
+
+
+- LabelPropagation
+
+   [reference code](https://scikit-learn.org/stable/modules/generated/sklearn.semi_supervised.LabelPropagation.html#sklearn.semi_supervised.LabelPropagation)
+
+- S3VM 
+
+  [reference code](<https://github.com/d12306/Implementation-of-Transductive-SVM-Sklearn-Compatible>)
+
+  
+
+
+
+Statement
+
+Some of the code comes from the Internet.
 
 ## Examples
 
