@@ -39,7 +39,7 @@ from sklearn import datasets
 from sklearn import metrics
 from sklearn.model_selection import train_test_split
 
-# 归一化
+# normalization
 def normalize(x):
 	return (x - np.min(x))/(np.max(x) - np.min(x))
 
