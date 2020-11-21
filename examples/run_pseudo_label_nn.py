@@ -61,7 +61,7 @@ if __name__ == "__main__":
 	label_X_train, label_y_train, unlabel_X_train, unlabel_y, X_test, y_test = get_data()
 	DNN = DNN()
 	DNNmodel = DNN.build_model(input_dim=30, output_dim=2)
-	
+
 	from semisupervised.PseudoLabelSSL import PseudoCallback, PseudoLabelNeuralNetworkClassifier
 	pseudo_callback = PseudoCallback()
 	#print("pseudo_callback.pretrain", pseudo_callback.pretrain)
