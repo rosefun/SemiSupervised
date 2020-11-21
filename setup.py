@@ -40,12 +40,13 @@ install_requires = [
 	'numpy',
 	'pandas',
 	'sklearn',
+	'keras',
 ]
 
 	
 setup(
 	name='semisupervised',
-	version='0.0.10',
+	version='0.0.13',
 	description='Python implementation of semi-supervised learning algorithm',
 	long_description=long_description,
 	#long_description_content_type="text/markdown",
