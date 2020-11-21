@@ -35,16 +35,3 @@ model.fit(np.vstack((label_X_train,unlabel_X_train)), np.append(label_y_train, u
 predict = model.predict(X_test)
 acc = metrics.accuracy_score(y_test, predict)
 print("label propagation accuracy", acc)
-
-
-
-
-
-
-
-
-
-
-
-
-
