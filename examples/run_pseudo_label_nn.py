@@ -8,6 +8,7 @@ from keras.models import Sequential
 import numpy as np
 from sklearn import datasets
 from sklearn.model_selection import train_test_split
+from sklearn import metrics
 
 class DNN(object):
 	"""
@@ -64,9 +65,12 @@ if __name__ == "__main__":
 
 	from semisupervised.PseudoLabelSSL import PseudoCallback, PseudoLabelNeuralNetworkClassifier
 	pseudo_callback = PseudoCallback()
-	#print("pseudo_callback.pretrain", pseudo_callback.pretrain)
-	clf = PseudoLabelNeuralNetworkClassifier(DNNmodel, pseudo_callback)
-	clf.fit(np.vstack((label_X_train, unlabel_X_train)), np.append(label_y_train, unlabel_y))
+
+	model = PseudoLabelNeuralNetworkClassifier(DNNmodel, pseudo_callback)
+	model.fit(np.vstack((label_X_train, unlabel_X_train)), np.append(label_y_train, unlabel_y))
+	predict = model.predict(X_test)
+	acc = metrics.accuracy_score(y_test, predict)
+	print("pseudo-label accuracy", acc)
 
 
 
