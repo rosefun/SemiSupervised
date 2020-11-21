@@ -25,13 +25,13 @@ def get_data():
 	unlabel_y = -1*np.ones(unlabel_X_train.shape[0]).astype(int)
 	return label_X_train, label_y_train, unlabel_X_train, unlabel_y, X_test, y_test
 
-label_X_train, label_y_train, unlabel_X_train, unlabel_y, X_test, y_test = get_data()
-
-from semisupervised import LabelPropagation
-
-# LabelPropagation
-model = LabelPropagation(gamma=50, n_neighbors=2, max_iter=500)
-model.fit(np.vstack((label_X_train,unlabel_X_train)), np.append(label_y_train, unlabel_y))
-predict = model.predict(X_test)
-acc = metrics.accuracy_score(y_test, predict)
-print("label propagation accuracy", acc)
+if __name__ == "__main__":
+	from semisupervised import LabelPropagation
+	
+	label_X_train, label_y_train, unlabel_X_train, unlabel_y, X_test, y_test = get_data()
+	# LabelPropagation
+	model = LabelPropagation(gamma=50, n_neighbors=2, max_iter=500)
+	model.fit(np.vstack((label_X_train,unlabel_X_train)), np.append(label_y_train, unlabel_y))
+	predict = model.predict(X_test)
+	acc = metrics.accuracy_score(y_test, predict)
+	print("label propagation accuracy", acc)
