@@ -87,6 +87,10 @@ warnings.simplefilter('error')
 # mat
 warnings.filterwarnings('default', category=PendingDeprecationWarning) 
 warnings.filterwarnings("ignore", category=FutureWarning)
+warnings.filterwarnings("ignore", category=RuntimeWarning)
+warnings.filterwarnings("ignore", category=ImportWarning)
+warnings.filterwarnings("ignore", category=DeprecationWarning)
+DeprecationWarning
 
 __author__ =  'Fabian Gieseke, Antti Airola, Tapio Pahikkala, Oliver Kramer'
 __version__=  '0.1'
