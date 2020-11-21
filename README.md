@@ -38,6 +38,10 @@ We have implemented following semi-supervised learning algorithm.
 
   [reference code](<https://github.com/d12306/Implementation-of-Transductive-SVM-Sklearn-Compatible>)
 
+- PseudoLabelNeuralNetworkClassifier
+
+  This is pseudo-label semi-supervised learning, `PseudoLabelNeuralNetworkClassifier`  should work with `PseudoCallback` .
+
   
 
 
@@ -91,3 +95,8 @@ acc = metrics.accuracy_score(y_test, predict)
 print("accuracy", acc)
 ```
 
+
+
+Please see `examples`  folder for more examples.
+
+ 
