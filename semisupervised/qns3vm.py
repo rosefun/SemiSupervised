@@ -83,14 +83,15 @@ import scipy.sparse.csc as csc
 from scipy import sparse
 import scipy
 import warnings
+import warnings
 warnings.simplefilter('error')
-# mat
 warnings.filterwarnings('default', category=PendingDeprecationWarning) 
 warnings.filterwarnings("ignore", category=FutureWarning)
+# filter warning of numpy
 warnings.filterwarnings("ignore", category=RuntimeWarning)
 warnings.filterwarnings("ignore", category=ImportWarning)
+warnings.filterwarnings("ignore", category=UserWarning)
 warnings.filterwarnings("ignore", category=DeprecationWarning)
-DeprecationWarning
 
 __author__ =  'Fabian Gieseke, Antti Airola, Tapio Pahikkala, Oliver Kramer'
 __version__=  '0.1'

@@ -15,6 +15,15 @@ import random as rnd
 import numpy
 from sklearn.linear_model import LogisticRegression as LR
 from .qns3vm import QN_S3VM
+import warnings
+warnings.simplefilter('error')
+warnings.filterwarnings('default', category=PendingDeprecationWarning) 
+warnings.filterwarnings("ignore", category=FutureWarning)
+# filter warning of numpy
+warnings.filterwarnings("ignore", category=RuntimeWarning)
+warnings.filterwarnings("ignore", category=ImportWarning)
+warnings.filterwarnings("ignore", category=UserWarning)
+warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 class S3VM(BaseEstimator):
     """
