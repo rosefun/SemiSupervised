@@ -66,7 +66,7 @@ if __name__ == "__main__":
 	from semisupervised.PseudoLabelSSL import PseudoCallback, PseudoLabelNeuralNetworkClassifier
 	pseudo_callback = PseudoCallback()
 
-	model = PseudoLabelNeuralNetworkClassifier(DNNmodel, pseudo_callback)
+	model = PseudoLabelNeuralNetworkClassifier(DNNmodel, pseudo_callback, batch_size=128, pretrain_epoch=40, finetune_epoch=40)
 	model.fit(np.vstack((label_X_train, unlabel_X_train)), np.append(label_y_train, unlabel_y))
 	predict = model.predict(X_test)
 	acc = metrics.accuracy_score(y_test, predict)

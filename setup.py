@@ -46,7 +46,7 @@ install_requires = [
 	
 setup(
 	name='semisupervised',
-	version='0.0.13',
+	version='0.0.15',
 	description='Python implementation of semi-supervised learning algorithm',
 	long_description=long_description,
 	#long_description_content_type="text/markdown",
