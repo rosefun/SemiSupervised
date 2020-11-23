@@ -177,7 +177,7 @@ class PseudoLabelNeuralNetworkClassifier(object):
 			Y_valid = validation_data[1]
 			if Y_valid.ndim == 1:
 				Y_valid = self.onehot(Y_valid)
-			clf = self.fit_model(labeledX, labeled_y, epochs=self.epochs, X_valid=validation_data[0], Y_valid=Y_valid, patience=self.patience)
+			clf = self.fit_model(labeledX, labeled_y, epochs=self.pretrain_epoch, X_valid=validation_data[0], Y_valid=Y_valid, patience=self.patience)
 		else:
 			clf = self.fit_model(labeledX, labeled_y, epochs=self.pretrain_epoch)
 
