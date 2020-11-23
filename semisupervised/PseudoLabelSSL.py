@@ -170,6 +170,7 @@ class PseudoLabelNeuralNetworkClassifier(object):
 		"""
 		unlabeledX = X[y == -1, :]  # .tolist()
 		labeledX = X[y != -1, :]  # .tolist()
+		nclass = np.max(y) + 1
 		labeled_y = y[y != -1]
 		if labeled_y.ndim == 1:
 			labeled_y = self.onehot(labeled_y)
@@ -180,7 +181,7 @@ class PseudoLabelNeuralNetworkClassifier(object):
 		if validation_data is not None:
 			Y_valid = validation_data[1]
 			if Y_valid.ndim == 1:
-				Y_valid = self.onehot(Y_valid)
+				Y_valid = self.onehot(Y_valid, nclass=nclass)
 			clf = self.fit_model(labeledX, labeled_y, epochs=self.pretrain_epoch, X_valid=validation_data[0], Y_valid=Y_valid, patience=self.patience)
 		else:
 			clf = self.fit_model(labeledX, labeled_y, epochs=self.pretrain_epoch)
@@ -191,7 +192,7 @@ class PseudoLabelNeuralNetworkClassifier(object):
 		else:
 			print("\nfinetune model with labeled and pseudo-labeled samples.\n")
 			pseudo_label = self.predict(unlabeledX)
-			pseudo_label = self.onehot(pseudo_label, np.max(y) + 1)
+			pseudo_label = self.onehot(pseudo_label, int(np.max(y) + 1))
 			# step 3. train clf with unlabeled datasets and labeled datasets.
 			# add flag whether is pseudo-labeled sample
 			labeled_y = np.hstack((labeled_y, np.zeros((len(labeled_y), 1))))
@@ -208,7 +209,8 @@ class PseudoLabelNeuralNetworkClassifier(object):
 			if validation_data is not None:
 				Y_valid = validation_data[1]
 				if Y_valid.ndim == 1:
-					Y_valid = self.onehot(Y_valid)
+					Y_valid = self.onehot(Y_valid, nclass=nclass)
+				Y_valid = np.hstack((Y_valid, np.zeros((len(Y_valid), 1))))
 				clf = self.fit_model(merge_X_train, merge_y_train, epochs=self.finetune_epoch, X_valid=validation_data[0], 
 							Y_valid=Y_valid, patience=self.patience)
 			else:

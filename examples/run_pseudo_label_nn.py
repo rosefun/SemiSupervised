@@ -43,8 +43,9 @@ def normalize(x):
 
 def get_data():
 	X, y = datasets.load_breast_cancer(return_X_y=True)
+	#X, y = datasets.load_iris(return_X_y=True)
 	X = normalize(X)
-	X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.6, random_state=0)
+	X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1, random_state=0)
 	rng = np.random.RandomState(42)
 	random_unlabeled_points = rng.rand(len(X_train)) < 0.1
 	y_train[random_unlabeled_points] = -1
@@ -57,7 +58,6 @@ def get_data():
 	unlabel_y = -1 * np.ones(unlabel_X_train.shape[0]).astype(int)
 	return label_X_train, label_y_train, unlabel_X_train, unlabel_y, X_test, y_test
 
-
 if __name__ == "__main__":
 	label_X_train, label_y_train, unlabel_X_train, unlabel_y, X_test, y_test = get_data()
 	DNN = DNN()
@@ -67,7 +67,8 @@ if __name__ == "__main__":
 	pseudo_callback = PseudoCallback()
 
 	model = PseudoLabelNeuralNetworkClassifier(DNNmodel, pseudo_callback, batch_size=128, pretrain_epoch=40, finetune_epoch=40)
-	model.fit(np.vstack((label_X_train, unlabel_X_train)), np.append(label_y_train, unlabel_y))
+	print(np.append(label_y_train, unlabel_y))
+	model.fit(np.vstack((label_X_train, unlabel_X_train)), np.append(label_y_train, unlabel_y), validation_data=(label_X_train,label_y_train))
 	predict = model.predict(X_test)
 	acc = metrics.accuracy_score(y_test, predict)
 	print("pseudo-label accuracy", acc)
