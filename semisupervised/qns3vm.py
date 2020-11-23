@@ -231,6 +231,9 @@ class QN_S3VM_Dense:
 	def __init__(self, X_l, L_l, X_u, random_generator, ** kw):
 		"""
 		Intializes the S3VM optimizer.
+		:param X_l: labeled train samples
+		:param L_l: label of X_l
+		:param X_u: unlabeled train samples
 		"""
 		self.__random_generator = random_generator
 		if self.__random_generator is None:

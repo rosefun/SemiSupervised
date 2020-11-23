@@ -87,6 +87,8 @@ class S3VM(BaseEstimator):
         labeledX = X[y!=-1, :].tolist()
         labeledy = y[y!=-1]
         
+        assert len(unlabeledX) > 0, "The number of unlabeled samples must larger than zero!"
+        
         # convert class 0 to -1 for tsvm
         labeledy[labeledy==0] = -1
         labeledy = labeledy.tolist()

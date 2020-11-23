@@ -136,7 +136,7 @@ class PseudoLabelNeuralNetworkClassifier(object):
 	"""
 	"""
 	def __init__(self, clf, pseudo_callback, batch_size=128, pretrain_epoch=100, finetune_epoch=100, patience=40, 
-				best_model_name="best_pseudo_label_model"):
+				best_model_name="best_pseudo_label_model", optimizer=None):
 		"""
 		:param clf:
 		"""
@@ -148,6 +148,10 @@ class PseudoLabelNeuralNetworkClassifier(object):
 		self.finetune_epoch = finetune_epoch
 		self.patience = patience
 		self.best_model_name = best_model_name
+		if optimizer is None:
+			self.optimizer = keras.optimizers.Adam()
+		else:
+			self.optimizer = optimizer
 
 	def onehot(self, narr, nclass=None):
 		"""
@@ -172,7 +176,7 @@ class PseudoLabelNeuralNetworkClassifier(object):
 
 		# step 1. train nn clf with labeled datasets.
 		# pseudo_callback = PseudoCallback(batch_size=self.batch_size)
-		self.model.compile(loss=self.pseudo_callback.make_loss(), optimizer='adam', metrics=[self.pseudo_callback.accuracy])
+		self.model.compile(loss=self.pseudo_callback.make_loss(), optimizer=self.optimizer, metrics=[self.pseudo_callback.accuracy])
 		if validation_data is not None:
 			Y_valid = validation_data[1]
 			if Y_valid.ndim == 1:
@@ -197,7 +201,7 @@ class PseudoLabelNeuralNetworkClassifier(object):
 			merge_y_train = np.vstack((labeled_y, pseudo_label))
 			self.pseudo_callback.update_epoch_loss = True
 			self.pseudo_callback.pretrain = False
-			self.finetune_model.compile(loss=self.pseudo_callback.make_loss(), optimizer='adam',
+			self.finetune_model.compile(loss=self.pseudo_callback.make_loss(), optimizer=self.optimizer,
 										metrics=[self.pseudo_callback.accuracy])
 			self.model = self.finetune_model
 			#clf = self.fit_model(merge_X_train, merge_y_train, epochs=self.finetune_epoch)
