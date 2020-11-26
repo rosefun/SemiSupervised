@@ -30,6 +30,20 @@ We have implemented following semi-supervised learning algorithm.
 
 
 
+All the methods are similar to Sklearn Semi-supervised API. 
+
+
+
+Step 1. **The unlabeled samples should be labeled as -1.**
+
+Step2. `model.fit(X,y)`
+
+Step3. `model.predict(X_test)`
+
+
+
+
+
 - LabelPropagation
 
    [reference code](https://scikit-learn.org/stable/modules/generated/sklearn.semi_supervised.LabelPropagation.html#sklearn.semi_supervised.LabelPropagation)
