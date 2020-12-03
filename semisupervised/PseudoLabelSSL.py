@@ -162,7 +162,7 @@ class PseudoLabelNeuralNetworkClassifier(object):
 			nclass = np.max(narr) + 1
 		return np.eye(nclass)[narr]
 
-	def fit(self, X, y, validation_data=None):
+	def fit(self, X, y, validation_data=None, pseudo_label=None):
 		"""
 		:param X: numpy.ndarray, train datasets, 2-ndim
 		:param y: numpy.ndarray, label of train datasets, scalar values, 1-ndim. 
@@ -187,11 +187,12 @@ class PseudoLabelNeuralNetworkClassifier(object):
 			clf = self.fit_model(labeledX, labeled_y, epochs=self.pretrain_epoch)
 
 		# step 2. predict unlabeled dataset
-		if len(unlabeledX) == 0:
+		if len(unlabeledX) == 0 and pseudo_label is None:
 			pass
 		else:
 			print("\nfinetune model with labeled and pseudo-labeled samples.\n")
-			pseudo_label = self.predict(unlabeledX)
+			if pseudo_label is None:
+				pseudo_label = self.predict(unlabeledX)
 			pseudo_label = self.onehot(pseudo_label, int(np.max(y) + 1))
 			# step 3. train clf with unlabeled datasets and labeled datasets.
 			# add flag whether is pseudo-labeled sample
