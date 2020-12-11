@@ -5,7 +5,7 @@ Created on Sun Dec 22 19:22:43 2019
 @author: win10
 """
 
-from sklearn.externals import joblib
+
 
 from sklearn.model_selection import train_test_split,cross_val_score
 
