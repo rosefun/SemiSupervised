@@ -46,11 +46,10 @@ install_requires = [
 	
 setup(
 	name='semisupervised',
-	version='0.0.20',
+	version='0.0.24',
 	description='Python implementation of semi-supervised learning algorithm',
 	long_description=long_description,
 	#long_description_content_type="text/markdown",
-	#py_modules=['pyssl'],
 	packages=setuptools.find_packages(exclude=["tests", "examples"]),
 	author = "Rosefun",  
 	author_email = "rosefun@foxmail.com" ,
@@ -61,5 +60,9 @@ setup(
 	platforms=platforms,
 	classifiers=classifiers,
 	install_requires=install_requires,
+		extras_require = {
+		'keras_backend': ['tensorflow'],
+		'SAE_require': ['torch'],
+	}, 
 	keywords=['semi-supervised learning','ssl', 'deep learning', 'machine learning', 'semisupervised']
 	)   

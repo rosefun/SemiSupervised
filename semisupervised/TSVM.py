@@ -1,12 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Created on Sun Dec 22 19:22:43 2019
+Created on Sun Dec 11 19:22:43 2020
 
-@author: win10
+@author: rosefun
 """
-
-from sklearn.externals import joblib
-
 from sklearn.model_selection import train_test_split,cross_val_score
 
 from sklearn.base import BaseEstimator

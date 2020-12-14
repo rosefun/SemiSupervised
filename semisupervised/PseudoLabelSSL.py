@@ -136,7 +136,7 @@ class PseudoLabelNeuralNetworkClassifier(object):
 	"""
 	"""
 	def __init__(self, clf, pseudo_callback, batch_size=128, pretrain_epoch=100, finetune_epoch=100, patience=40, 
-				best_model_name="best_pseudo_label_model", optimizer=None):
+				best_model_name="best_pseudo_label_model", optimizer=None, monitor_metric="val_accuracy"):
 		"""
 		:param clf:
 		"""
@@ -152,6 +152,7 @@ class PseudoLabelNeuralNetworkClassifier(object):
 			self.optimizer = keras.optimizers.Adam()
 		else:
 			self.optimizer = optimizer
+		self.monitor_metric = monitor_metric
 
 	def onehot(self, narr, nclass=None):
 		"""
@@ -221,11 +222,18 @@ class PseudoLabelNeuralNetworkClassifier(object):
 	def fit_model(self, X_train, Y_train, X_valid=None, Y_valid=None, epochs=None, patience=0):
 		if X_valid is not None:
 			early_stopping = EarlyStopping(
-				monitor='val_loss', 
+				monitor=self.monitor_metric, 
 				patience=patience, 
 			)
-			model_check_point_save = ModelCheckpoint('.{}.hdf5'.format(self.best_model_name), save_best_only=True, 
-									monitor='val_loss', mode='min')
+			if self.monitor_metric == "val_loss":
+				model_check_point_save = ModelCheckpoint('.{}.hdf5'.format(self.best_model_name), save_best_only=True, 
+										monitor='val_loss', mode='min')
+			elif self.monitor_metric == "val_accuracy":
+				model_check_point_save = ModelCheckpoint('.{}.hdf5'.format(self.best_model_name), save_best_only=True, 
+										monitor='val_accuracy', mode='max')
+			else:
+				assert self.monitor_metric in ["val_accuracy", "val_loss"]
+								
 			hist = self.model.fit_generator(self.pseudo_callback.train_generator(X_train, Y_train),
 											steps_per_epoch=X_train.shape[0] // self.batch_size,
 											validation_data=(X_valid, Y_valid), callbacks=[self.pseudo_callback, early_stopping, model_check_point_save],
