@@ -10,6 +10,11 @@ Welcome to semisupervised's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+.. toctree::
+   :maxdepth: 3
+   :caption: API:
+
+   Models<Models>
 
 
 Indices and tables
