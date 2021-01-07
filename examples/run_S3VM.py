@@ -4,6 +4,10 @@ from sklearn import datasets
 from sklearn import metrics
 from sklearn.model_selection import train_test_split
 
+import os
+os.chdir(r"F:\研究生\github项目\python半监督包\semisupervised")
+import sys
+sys.path.append(r"F:\研究生\github项目\python半监督包\semisupervised")
 
 # normalization
 def normalize(x):

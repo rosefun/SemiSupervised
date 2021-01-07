@@ -1,26 +1,31 @@
 # -*- coding: utf-8 -*-
-
 import numpy as np
+import pandas as pd
 import torch
 from torch.autograd import Variable
 from torch import nn
-from torch.utils.data import DataLoader, TensorDataset
+from torch.utils.data import DataLoader, Dataset, TensorDataset
+from sklearn.metrics import accuracy_score
+from sklearn.base import BaseEstimator
 
 
-class StackedAutoEncoderClassifier(object):
+class StackedAutoEncoderClassifier(BaseEstimator):
     def __init__(self, SAE, pretrain_epochs=100, finetune_epochs=100,
                  pretrain_optimizer_parameters=dict(lr=0.003, weight_decay=1e-5),
                  finetune_optimizer_parameters=dict(lr=0.003),
                  pretrain_batch_size=256, finetune_batch_size=256, pretrain_optimizer=None,
                  finetune_optimizer=None, patience=40,
                  device_name="auto", verbose=1, save_pretrain_model=False):
-        if device_name == 'auto':
+        self._estimator_type = "classifier"
+        self.classes_ = None
+        if device_name == 'auto' or not device_name:
             if torch.cuda.is_available():
                 device_name = 'cuda'
             else:
                 device_name = 'cpu'
         self.device = torch.device(device_name)
-        print("Info:", f"Device used : {self.device}")
+        if verbose:
+            print("Info:", f"Device used : {self.device}")
 
         self.SAE = SAE.to(self.device)
         self.pretrain_epochs = pretrain_epochs
@@ -45,7 +50,10 @@ class StackedAutoEncoderClassifier(object):
         self.finetune_loss = nn.CrossEntropyLoss()
 
     def create_dataloader(self, X, y=None, batch_size=256, shuffle=False, device="cuda"):
-        X = torch.tensor(X, dtype=torch.float).to(self.device)
+        """
+        Return: DataLoader of tensor data.
+        """
+        X = torch.tensor(X.values if isinstance(X, pd.DataFrame) else X, dtype=torch.float).to(self.device)
         if y is not None:
             y = torch.tensor(y, dtype=torch.float).to(self.device)
             tensor_data = TensorDataset(X, y)
@@ -64,12 +72,14 @@ class StackedAutoEncoderClassifier(object):
         return np.eye(nclass)[narr]
 
     def save_model(self, ):
-        # save pretrained model.
+        """save pretrained model.
+        """
         checkpoint = {'model': self.SAE,
                       'state_dict': self.SAE.state_dict(),
                       'pretrain_optimizer': self.pretrain_optimizer.state_dict()}
         ckpt_file = 'SAE_pretrain.pth'
         torch.save(checkpoint, ckpt_file)
+        return ckpt_file
 
     def fit(self, X, y, is_pretrain=True, validation_data=None):
         """
@@ -77,9 +87,10 @@ class StackedAutoEncoderClassifier(object):
         :param y: 1-dim np.ndarray, scalar value, if value == -1, it means unlabeled sample.
         """
         # process data
-        unlabeledX = X[y == -1, :]
-        labeledX = X[y != -1, :]
+        unlabeledX = X[y == -1].values
+        labeledX = X[y != -1].values
         nclass = np.max(y) + 1
+        self.classes_ = sorted(y[y != -1].unique())
         labeled_y = y[y != -1]
         if labeled_y.ndim == 1:
             labeled_y = self.onehot(labeled_y)
@@ -110,7 +121,7 @@ class StackedAutoEncoderClassifier(object):
                     min_loss = p_loss
                 else:
                     patience_counter += 1
-                if epoch % self.verbose == 0:
+                if self.verbose and (epoch % self.verbose == 0):
                     print('Info: epoch [{}/{}], loss:{:.4f}'
                           .format(epoch + 1, self.pretrain_epochs, p_loss))
                 if patience_counter >= self.patience:
@@ -148,14 +159,15 @@ class StackedAutoEncoderClassifier(object):
                     min_loss = valid_loss
                 else:
                     patience_counter += 1
-                if ep % self.verbose == 0:
+                if self.verbose and (ep % self.verbose == 0):
                     print("Info: epoch:{}, loss:{:.4}, valid_loss:{:.4}".format(ep, e_loss, valid_loss))
                 if patience_counter >= self.patience:
                     break
             else:
-                if ep % self.verbose == 0:
+                if self.verbose and (ep % self.verbose == 0):
                     print("Info: epoch:{},loss:{:.4}".format(ep, e_loss))
-
+        return self.SAE 
+        
     def predict_epoch(self, valid_loader):
         self.SAE.eval()
         e_loss = 0
@@ -189,3 +201,6 @@ class StackedAutoEncoderClassifier(object):
             test_preds.append(y_pred.cpu().numpy())
         test_preds = np.vstack(test_preds)
         return test_preds
+    
+    def score(self, X, y, sample_weight=None):
+        return accuracy_score(y, self.predict(X), sample_weight=sample_weight)

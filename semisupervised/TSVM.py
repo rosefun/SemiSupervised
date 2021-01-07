@@ -5,11 +5,10 @@ Created on Sun Dec 11 19:22:43 2020
 @author: rosefun
 """
 from sklearn.model_selection import train_test_split,cross_val_score
-
 from sklearn.base import BaseEstimator
 import sklearn.metrics
 import random as rnd
-import numpy
+import numpy as np
 from sklearn.linear_model import LogisticRegression as LR
 from .qns3vm import QN_S3VM
 import warnings
@@ -59,19 +58,19 @@ class S3VM(BaseEstimator):
         self.lamU = lamU
         self.probability = probability
         
-    def fit(self, X, y): # -1 for unlabeled
+    def fit(self, X, y): 
         """Fit the model according to the given training data.
 
         Parameters
         ----------
-        X : array-like, shape = [n_samples, n_features]
+        X : numpy array. array-like, shape = [n_samples, n_features]
             Training vector, where n_samples in the number of samples and
             n_features is the number of features.
 
-        y : array-like, shape = [n_samples]
+        y : numpy array. array-like, shape = [n_samples]
             Target vector relative to X
             Must be 0 or 1 for labeled and -1 for unlabeled instances 
-
+            
         Returns
         -------
         self : object
@@ -80,14 +79,12 @@ class S3VM(BaseEstimator):
         
         # http://www.fabiangieseke.de/index.php/code/qns3vm
         
-        unlabeledX = X[y==-1, :].tolist()
-        labeledX = X[y!=-1, :].tolist()
-        labeledy = y[y!=-1]
-        
+        unlabeledX = X[y == -1, :].tolist()
+        labeledX = X[y != -1, :].tolist()
+        labeledy = y[y != -1]
         assert len(unlabeledX) > 0, "The number of unlabeled samples must larger than zero!"
-        
         # convert class 0 to -1 for tsvm
-        labeledy[labeledy==0] = -1
+        labeledy[labeledy == 0] = -1
         labeledy = labeledy.tolist()
         
         if 'rbf' in self.kernel.lower():
@@ -150,7 +147,6 @@ class S3VM(BaseEstimator):
 
 if __name__ == '__main__':
 	model = S3VM()
-	import numpy as np
 	model.fit(np.array([[1],[1],[2],[3],[3]]), np.array([0,0,1,1,-1]))
 
 
