@@ -137,7 +137,7 @@ class S3VM(BaseEstimator):
             Class labels for samples in X.
         """
         
-        y = numpy.array(self.model.getPredictions(X.tolist()))
+        y = np.array(self.model.getPredictions(X.tolist()))
         y[y == -1] = 0
         return y
     

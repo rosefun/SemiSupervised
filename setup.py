@@ -40,17 +40,16 @@ install_requires = [
 	'numpy',
 	'pandas',
 	'sklearn',
-	'keras',
 ]
 
 	
 setup(
 	name='semisupervised',
-	version='0.0.24',
+	version='0.0.28',
 	description='Python implementation of semi-supervised learning algorithm',
 	long_description=long_description,
 	#long_description_content_type="text/markdown",
-	packages=setuptools.find_packages(exclude=["tests", "examples"]),
+	packages=setuptools.find_packages(exclude=["tests", "examples", "docs_md"]),
 	author = "Rosefun",  
 	author_email = "rosefun@foxmail.com" ,
 	url = "https://github.com/rosefun/semisupervised" ,
@@ -63,6 +62,7 @@ setup(
 		extras_require = {
 		'keras_backend': ['tensorflow'],
 		'SAE_require': ['torch'],
+        'PseudoLabelSSL': ['keras'],
 	}, 
 	keywords=['semi-supervised learning','ssl', 'deep learning', 'machine learning', 'semisupervised']
 	)   
